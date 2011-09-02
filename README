@@ -1,0 +1,9 @@
+Predator -Prey Simulation using Thoth and PrimeMover
+
+This is an example of an even driven simulation of a predator-prey interaction using Thoth as the area of interest managment and PrimeMover as the event driven simulation framework.
+
+Licensed under the AGPL V3
+
+Build with Maven 3.x:
+
+	mvn clean install
