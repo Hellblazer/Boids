@@ -34,6 +34,7 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
+@SuppressWarnings("restriction")
 @Entity({ Boid.class })
 abstract public class BoidImpl<Flock extends Perceiving> implements Boid<Flock> {
     protected Point3i field;

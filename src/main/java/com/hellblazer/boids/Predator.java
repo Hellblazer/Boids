@@ -31,6 +31,7 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
+@SuppressWarnings("restriction")
 public class Predator<F extends Boid<?>, P extends Boid<?>> extends BoidImpl<F> {
     protected int seekRadius;
     protected int stamina;

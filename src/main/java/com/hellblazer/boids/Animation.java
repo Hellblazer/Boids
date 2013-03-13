@@ -37,6 +37,7 @@ import com.hellblazer.thoth.impl.Perceptron;
  * 
  */
 
+@SuppressWarnings("restriction")
 public class Animation {
     protected boolean selected = false;
     protected Perceptron<?> perceptron;

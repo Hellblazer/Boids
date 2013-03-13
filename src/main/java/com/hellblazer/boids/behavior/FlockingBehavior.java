@@ -32,6 +32,7 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
+@SuppressWarnings("restriction")
 public class FlockingBehavior<Flock extends Perceiving> {
     public static class FlockState {
         public final Point3i position;

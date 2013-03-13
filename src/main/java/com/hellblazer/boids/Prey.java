@@ -29,6 +29,7 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
+@SuppressWarnings("restriction")
 public class Prey<F extends Perceiving, P extends Perceiving> extends
         BoidImpl<F> {
     FlockingPrey<F, P> behavior;

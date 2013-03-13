@@ -32,6 +32,7 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
+@SuppressWarnings("restriction")
 public class FlockingPrey<Flock extends Perceiving, Predator extends Perceiving>
         extends FlockingBehavior<Flock> {
     protected int scareDistance;
