@@ -2,7 +2,7 @@
  * Copyright (C) 2008 Hal Hildebrand. All rights reserved.
  * 
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
  * 
@@ -32,14 +32,12 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
-@SuppressWarnings("restriction")
-public class FlockingPrey<Flock extends Perceiving, Predator extends Perceiving>
-        extends FlockingBehavior<Flock> {
-    protected int scareDistance;
-    protected Map<Predator, Point3i> predators = new HashMap<Predator, Point3i>();
-    protected Class<?> predatorClass;
-    protected Point3i predatorPositionSum = new Point3i();
-    protected double predatorFleeChange;
+public class FlockingPrey<Flock extends Perceiving, Predator extends Perceiving> extends FlockingBehavior<Flock> {
+    protected Class<?>               predatorClass;
+    protected double                 predatorFleeChange;
+    protected Point3i                predatorPositionSum = new Point3i();
+    protected Map<Predator, Point3i> predators           = new HashMap<Predator, Point3i>();
+    protected int                    scareDistance;
 
     @Override
     public void fade(Perceiving neighbor) {
@@ -51,10 +49,8 @@ public class FlockingPrey<Flock extends Perceiving, Predator extends Perceiving>
     }
 
     @Override
-    public Vector3i getFlockingVector(Point3i currentPosition,
-                                      Vector3i currentVelocity, int maximumSpeed) {
-        Vector3i vector = super.getFlockingVector(currentPosition,
-                                                  currentVelocity, maximumSpeed);
+    public Vector3i getFlockingVector(Point3i currentPosition, Vector3i currentVelocity, int maximumSpeed) {
+        Vector3i vector = super.getFlockingVector(currentPosition, currentVelocity, maximumSpeed);
         vector.sub(getPredatorFleeVector(currentPosition));
         return vector;
     }

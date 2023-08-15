@@ -2,7 +2,7 @@
  * Copyright (C) 2008 Hal Hildebrand. All rights reserved.
  * 
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
  * 
@@ -37,25 +37,20 @@ import com.hellblazer.thoth.impl.Perceptron;
  * 
  */
 
-@SuppressWarnings("restriction")
 public class Animation {
-    protected boolean selected = false;
-    protected Perceptron<?> perceptron;
-    protected int tailScale = 1;
-    protected int width, height, scale;
-    protected Color color;
-    protected Point3i position = new Point3i();
-    protected Point3i[] oldPositions = new Point3i[] { new Point3i(),
-                                                      new Point3i(),
-                                                      new Point3i(),
-                                                      new Point3i(),
-                                                      new Point3i() };
-    final static int node_radius = 5;
-    final static BasicStroke stroke = new BasicStroke(2.0f);
-    final static BasicStroke aoiStroke = new BasicStroke(3.0f);
+    final static BasicStroke aoiStroke    = new BasicStroke(3.0f);
+    final static int         node_radius  = 5;
+    final static BasicStroke stroke       = new BasicStroke(2.0f);
+    protected Color          color;
+    protected Point3i[]      oldPositions = new Point3i[] { new Point3i(), new Point3i(), new Point3i(), new Point3i(),
+                                                            new Point3i() };
+    protected Perceptron<?>  perceptron;
+    protected Point3i        position     = new Point3i();
+    protected boolean        selected     = false;
+    protected int            tailScale    = 1;
+    protected int            width, height, scale;
 
-    public Animation(int scale, int width, int height, Color color,
-                     int tailScale) {
+    public Animation(int scale, int width, int height, Color color, int tailScale) {
         this.scale = scale;
         this.width = width;
         this.height = height;
@@ -67,51 +62,33 @@ public class Animation {
         graphics.setStroke(stroke);
         graphics.setColor(color);
         for (int i = 0; i < 5; i++) {
-            graphics.fillOval(scale(oldPositions[i].x) - i,
-                              scale(oldPositions[i].y) - i, i * tailScale,
-                              i * tailScale);
+            graphics.fillOval(scale(oldPositions[i].x) - i, scale(oldPositions[i].y) - i, i * tailScale, i * tailScale);
         }
-        graphics.fillOval(scale(position.x - width / 2), scale(position.y
-                                                               - height / 2),
-                          scale(width), scale(height));
+        graphics.fillOval(scale(position.x - width / 2), scale(position.y - height / 2), scale(width), scale(height));
         if (selected) {
             graphics.setPaint(Color.red);
             for (AbstractNode<? extends Perceiving> neighbor : perceptron.getNeighbors()) {
                 if (!neighbor.equals(perceptron)) {
-                    graphics.draw(new Ellipse2D.Double(
-                                                       scale(neighbor.getLocation().x)
-                                                               - node_radius
-                                                               * 2,
-                                                       scale(neighbor.getLocation().y)
-                                                               - node_radius
-                                                               * 2,
-                                                       node_radius * 2 * 2,
-                                                       node_radius * 2 * 2));
+                    graphics.draw(new Ellipse2D.Double(scale(neighbor.getLocation().x) - node_radius * 2,
+                                                       scale(neighbor.getLocation().y) - node_radius * 2,
+                                                       node_radius * 2 * 2, node_radius * 2 * 2));
                 }
             }
             graphics.setPaint(Color.blue);
-            graphics.draw(new Ellipse2D.Double(scale(position.x) - node_radius
-                                               * 2, scale(position.y)
-                                                    - node_radius * 2,
-                                               node_radius * 2 * 2,
-                                               node_radius * 2 * 2));
+            graphics.draw(new Ellipse2D.Double(scale(position.x) - node_radius * 2, scale(position.y) - node_radius * 2,
+                                               node_radius * 2 * 2, node_radius * 2 * 2));
             graphics.setPaint(Color.red);
             if (showEdges) {
                 List<Point2d[]> edges = perceptron.getVoronoiDomainEdges();
                 for (Point2d[] edge : edges) {
-                    graphics.draw(new Line2D.Double(scale(edge[0].x),
-                                                    scale(edge[0].y),
-                                                    scale(edge[1].x),
+                    graphics.draw(new Line2D.Double(scale(edge[0].x), scale(edge[0].y), scale(edge[1].x),
                                                     scale(edge[1].y)));
                 }
             }
             if (showAoi) {
                 graphics.setStroke(aoiStroke);
-                graphics.draw(new Ellipse2D.Double(
-                                                   scale(position.x
-                                                         - perceptron.getAoiRadius()),
-                                                   scale(position.y
-                                                         - perceptron.getAoiRadius()),
+                graphics.draw(new Ellipse2D.Double(scale(position.x - perceptron.getAoiRadius()),
+                                                   scale(position.y - perceptron.getAoiRadius()),
                                                    scale(perceptron.getAoiRadius()) * 2,
                                                    scale(perceptron.getAoiRadius()) * 2));
                 graphics.setStroke(stroke);

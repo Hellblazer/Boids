@@ -2,7 +2,7 @@
  * Copyright (C) 2008 Hal Hildebrand. All rights reserved.
  * 
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
  * 
@@ -32,10 +32,9 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
-@SuppressWarnings("restriction")
 public class FlockingBehavior<Flock extends Perceiving> {
     public static class FlockState {
-        public final Point3i position;
+        public final Point3i  position;
         public final Vector3i velocity;
 
         public FlockState(Point3i position, Vector3i velocity) {
@@ -44,15 +43,15 @@ public class FlockingBehavior<Flock extends Perceiving> {
         }
     }
 
-    protected Map<Flock, FlockState> flock = new HashMap<Flock, FlockState>();
-    protected Class<?> flockClass;
-    protected Point3i positionSum = new Point3i();
-    protected Vector3i velocitySum = new Vector3i();
-    protected double cohesionChange;
-    protected double velocityMatchChange;
-    protected int maximumFlockDistance;
+    protected double                 cohesionChange;
+    protected Map<Flock, FlockState> flock       = new HashMap<Flock, FlockState>();
+    protected Class<?>               flockClass;
+    protected int                    maximumFlockDistance;
+    protected Point3i                positionSum = new Point3i();
+    protected double                 repellerChange;
+    protected double                 velocityMatchChange;
 
-    protected double repellerChange;
+    protected Vector3i velocitySum = new Vector3i();
 
     public void fade(Perceiving neighbor) {
         FlockState previousState = flock.remove(neighbor);
@@ -78,11 +77,10 @@ public class FlockingBehavior<Flock extends Perceiving> {
      * @param currentPosition
      * @param currentVelocity
      * @param maximumSpeed
-     * @return Answer the velocity change necessary to maintain membership with
-     *         the flock
+     * @return Answer the velocity change necessary to maintain membership with the
+     *         flock
      */
-    public Vector3i getFlockingVector(Point3i currentPosition,
-                                      Vector3i currentVelocity, int maximumSpeed) {
+    public Vector3i getFlockingVector(Point3i currentPosition, Vector3i currentVelocity, int maximumSpeed) {
         Vector3i vector = new Vector3i();
         vector.add(getCohesionVector(currentPosition));
         vector.sub(getRepellerVector(currentPosition, maximumSpeed));
@@ -109,9 +107,7 @@ public class FlockingBehavior<Flock extends Perceiving> {
     @SuppressWarnings("unchecked")
     public void move(Perceiving neighbor, Point3i location, Vector3i velocity) {
         if (flockClass.isAssignableFrom(neighbor.getClass())) {
-            FlockState previousState = flock.put((Flock) neighbor,
-                                                 new FlockState(location,
-                                                                velocity));
+            FlockState previousState = flock.put((Flock) neighbor, new FlockState(location, velocity));
             if (previousState != null) {
                 positionSum.sub(previousState.position);
                 velocitySum.sub(previousState.velocity);
@@ -124,16 +120,14 @@ public class FlockingBehavior<Flock extends Perceiving> {
     @SuppressWarnings("unchecked")
     public void notice(Perceiving neighbor, Point3i location) {
         if (flockClass.isAssignableFrom(neighbor.getClass())) {
-            flock.put((Flock) neighbor,
-                      new FlockState(location, new Vector3i()));
+            flock.put((Flock) neighbor, new FlockState(location, new Vector3i()));
             positionSum.add(location);
         }
     }
 
     public void setCohesionChange(double cohesionChange) {
         if (cohesionChange > 1.0 || cohesionChange < 0.0) {
-            throw new IllegalArgumentException(
-                                               "Cohesion change factor must be {0..1}");
+            throw new IllegalArgumentException("Cohesion change factor must be {0..1}");
         }
         this.cohesionChange = cohesionChange;
     }
@@ -148,16 +142,14 @@ public class FlockingBehavior<Flock extends Perceiving> {
 
     public void setRepellerChange(double repellerChange) {
         if (repellerChange > 1.0 || repellerChange < 0.0) {
-            throw new IllegalArgumentException(
-                                               "Repeller change factor must be {0..1}");
+            throw new IllegalArgumentException("Repeller change factor must be {0..1}");
         }
         this.repellerChange = repellerChange;
     }
 
     public void setVelocityMatchChange(double veocityMatchChange) {
         if (veocityMatchChange > 1.0 || veocityMatchChange < 0.0) {
-            throw new IllegalArgumentException(
-                                               "Velocity match factor must be {0..1}");
+            throw new IllegalArgumentException("Velocity match factor must be {0..1}");
         }
         this.velocityMatchChange = veocityMatchChange;
     }
@@ -180,11 +172,10 @@ public class FlockingBehavior<Flock extends Perceiving> {
 
     /**
      * @param currentPosition
-     * @return the vector representing the change in velocity necessary to keep
-     *         from running into members of the flock
+     * @return the vector representing the change in velocity necessary to keep from
+     *         running into members of the flock
      */
-    protected Vector3i getRepellerVector(Point3i currentPosition,
-                                         int maximumSpeed) {
+    protected Vector3i getRepellerVector(Point3i currentPosition, int maximumSpeed) {
         Vector3i repeller = new Vector3i();
         for (FlockState state : flock.values()) {
             Vector3i v = new Vector3i(currentPosition);
@@ -201,8 +192,8 @@ public class FlockingBehavior<Flock extends Perceiving> {
 
     /**
      * @param currentVelocity
-     * @return the vector representing the change in velocity required to match
-     *         the flock's velocity
+     * @return the vector representing the change in velocity required to match the
+     *         flock's velocity
      */
     protected Vector3i getVelocityMatchVector(Vector3i currentVelocity) {
         if (flock.size() == 0) {
