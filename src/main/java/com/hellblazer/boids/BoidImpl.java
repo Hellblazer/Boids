@@ -2,7 +2,7 @@
  * Copyright (C) 2008 Hal Hildebrand. All rights reserved.
  * 
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
  * 
@@ -23,8 +23,8 @@ import javax.vecmath.Point3i;
 
 import com.hellblazer.boids.behavior.FlockingBehavior;
 import com.hellblazer.geometry.Vector3i;
-import com.hellblazer.primeMover.Entity;
-import com.hellblazer.primeMover.NonEvent;
+import com.hellblazer.primeMover.annotations.Entity;
+import com.hellblazer.primeMover.annotations.NonEvent;
 import com.hellblazer.thoth.Cursor;
 import com.hellblazer.thoth.Perceiving;
 
@@ -34,24 +34,22 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
-@SuppressWarnings("restriction")
 @Entity({ Boid.class })
 abstract public class BoidImpl<Flock extends Perceiving> implements Boid<Flock> {
-    protected Point3i field;
-    protected Animation animation;
-    protected int maximumSpeed;
-    protected Vector3i velocity = new Vector3i();
-    protected Cursor locator;
+    protected static Random           RANDOM   = new Random(666);
+    protected Animation               animation;
     protected FlockingBehavior<Flock> behavior;
-    protected double slowDown = 0.05;
-    protected double randomChange;
-    protected God god;
+    protected Point3i                 field;
+    protected God                     god;
+    protected Cursor                  locator;
+    protected int                     maximumSpeed;
+    protected double                  randomChange;
+    protected double                  slowDown = 0.05;
 
-    protected static Random RANDOM = new Random(666);
+    protected Vector3i velocity = new Vector3i();
 
-    public BoidImpl(FlockingBehavior<Flock> behavior, Vector3i initialVelocity,
-                    int maximumSpeed, Animation animation, Point3i field,
-                    God god) {
+    public BoidImpl(FlockingBehavior<Flock> behavior, Vector3i initialVelocity, int maximumSpeed, Animation animation,
+                    Point3i field, God god) {
         this.behavior = behavior;
         this.velocity = initialVelocity;
         this.animation = animation;
@@ -60,7 +58,9 @@ abstract public class BoidImpl<Flock extends Perceiving> implements Boid<Flock> 
         this.god = god;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see com.hellblazer.boids.Boid#eatenBy(com.hellblazer.boids.Boid)
      */
     @Override
@@ -97,8 +97,7 @@ abstract public class BoidImpl<Flock extends Perceiving> implements Boid<Flock> 
     @NonEvent
     public void setRandomChange(double randomChange) {
         if (randomChange < 0.0 || randomChange > 1.0) {
-            throw new IllegalArgumentException(
-                                               "Random change factor must be between 0 and 1");
+            throw new IllegalArgumentException("Random change factor must be between 0 and 1");
         }
         this.randomChange = randomChange;
     }
@@ -108,14 +107,15 @@ abstract public class BoidImpl<Flock extends Perceiving> implements Boid<Flock> 
         this.slowDown = slowDown;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see com.hellblazer.boids.Boid#step()
      */
     @Override
     public void step() {
         Vector3i newVelocity = new Vector3i(velocity);
-        newVelocity.add(behavior.getFlockingVector(locator.getLocation(),
-                                                   velocity, maximumSpeed));
+        newVelocity.add(behavior.getFlockingVector(locator.getLocation(), velocity, maximumSpeed));
         newVelocity.add(boundPosition(locator.getLocation()));
         newVelocity.add(getRandomVector(locator.getLocation()));
         velocity = newVelocity;
@@ -148,12 +148,9 @@ abstract public class BoidImpl<Flock extends Perceiving> implements Boid<Flock> 
     }
 
     protected Vector3i getRandomVector(Point3i currentPosition) {
-        Vector3i vector = new Vector3i(RANDOM.nextInt(maximumSpeed * 2)
-                                       - maximumSpeed,
-                                       RANDOM.nextInt(maximumSpeed * 2)
-                                               - maximumSpeed,
-                                       RANDOM.nextInt(maximumSpeed * 2)
-                                               - maximumSpeed);
+        Vector3i vector = new Vector3i(RANDOM.nextInt(maximumSpeed * 2) - maximumSpeed,
+                                       RANDOM.nextInt(maximumSpeed * 2) - maximumSpeed,
+                                       RANDOM.nextInt(maximumSpeed * 2) - maximumSpeed);
         vector.scale(randomChange);
         return vector;
     }
@@ -168,20 +165,18 @@ abstract public class BoidImpl<Flock extends Perceiving> implements Boid<Flock> 
         newPosition.add(velocity);
 
         if (newPosition.x < 50 && newPosition.x < oldPosition.x) {
-            //newPosition.x = 50;
+            // newPosition.x = 50;
             velocity.x += getMaximumSpeed() / 5;
-        } else if (newPosition.x > field.x - 50
-                   && newPosition.x > oldPosition.x) {
-            //newPosition.x = field.x - 50;
+        } else if (newPosition.x > field.x - 50 && newPosition.x > oldPosition.x) {
+            // newPosition.x = field.x - 50;
             velocity.x -= getMaximumSpeed() / 5;
         }
 
         if (newPosition.y < 50 && newPosition.y < oldPosition.y) {
-            //newPosition.y = 50;
+            // newPosition.y = 50;
             velocity.y += getMaximumSpeed() / 5;
-        } else if (newPosition.y > field.y - 50
-                   && newPosition.y > oldPosition.y) {
-            //newPosition.y = field.y - 50;
+        } else if (newPosition.y > field.y - 50 && newPosition.y > oldPosition.y) {
+            // newPosition.y = field.y - 50;
             velocity.y -= getMaximumSpeed() / 5;
         }
 
@@ -190,10 +185,9 @@ abstract public class BoidImpl<Flock extends Perceiving> implements Boid<Flock> 
         }
 
         /**
-         * double scale = Math.max(Math.abs(velocity.x) * slowDown, 0.01);
-         * velocity.x -= velocity.x / scale; scale =
-         * Math.max(Math.abs(velocity.y) * slowDown, 0.01); velocity.y -=
-         * velocity.y / scale;
+         * double scale = Math.max(Math.abs(velocity.x) * slowDown, 0.01); velocity.x -=
+         * velocity.x / scale; scale = Math.max(Math.abs(velocity.y) * slowDown, 0.01);
+         * velocity.y -= velocity.y / scale;
          */
         locator.moveBy(velocity);
         animation.update(locator.getLocation());

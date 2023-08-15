@@ -2,7 +2,7 @@
  * Copyright (C) 2008 Hal Hildebrand. All rights reserved.
  * 
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
  * 
@@ -31,19 +31,16 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
-@SuppressWarnings("restriction")
 public class Predator<F extends Boid<?>, P extends Boid<?>> extends BoidImpl<F> {
-    protected int seekRadius;
-    protected int stamina;
-    protected int catchDistance;
-    protected int maximumChaseSpeed;
-    protected P target;
     protected PredatorPack<F, P> behavior;
+    protected int                catchDistance;
+    protected int                maximumChaseSpeed;
+    protected int                seekRadius;
+    protected int                stamina;
+    protected P                  target;
 
-    public Predator(PredatorPack<F, P> behavior, Vector3i initialVelocity,
-                    int maximumSpeed, Animation animation, Point3i field,
-                    int seekRadius, int catchDistance, int maximumChaseSpeed,
-                    God god) {
+    public Predator(PredatorPack<F, P> behavior, Vector3i initialVelocity, int maximumSpeed, Animation animation,
+                    Point3i field, int seekRadius, int catchDistance, int maximumChaseSpeed, God god) {
         super(behavior, initialVelocity, maximumSpeed, animation, field, god);
         this.seekRadius = seekRadius;
         this.behavior = behavior;

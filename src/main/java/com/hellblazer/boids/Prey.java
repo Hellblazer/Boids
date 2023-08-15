@@ -2,7 +2,7 @@
  * Copyright (C) 2008 Hal Hildebrand. All rights reserved.
  * 
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
  * 
@@ -29,13 +29,11 @@ import com.hellblazer.thoth.Perceiving;
  * 
  */
 
-@SuppressWarnings("restriction")
-public class Prey<F extends Perceiving, P extends Perceiving> extends
-        BoidImpl<F> {
+public class Prey<F extends Perceiving, P extends Perceiving> extends BoidImpl<F> {
     FlockingPrey<F, P> behavior;
 
-    public Prey(FlockingPrey<F, P> behavior, Vector3i initialVelocity,
-                int maximumSpeed, Animation animation, Point3i field, God god) {
+    public Prey(FlockingPrey<F, P> behavior, Vector3i initialVelocity, int maximumSpeed, Animation animation,
+                Point3i field, God god) {
         super(behavior, initialVelocity, maximumSpeed, animation, field, god);
         this.behavior = behavior;
     }
